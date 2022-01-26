@@ -1,0 +1,112 @@
+import rospy
+from clover import srv
+from std_srvs.srv import Trigger
+from clover.srv import SetLEDEffect
+rospy.init_node('flight')
+
+
+get_telemetry = rospy.ServiceProxy('get_telemetry', srv.GetTelemetry)
+navigate = rospy.ServiceProxy('navigate', srv.Navigate)
+navigate_global = rospy.ServiceProxy('navigate_global', srv.NavigateGlobal)
+set_position = rospy.ServiceProxy('set_position', srv.SetPosition)
+set_velocity = rospy.ServiceProxy('set_velocity', srv.SetVelocity)
+set_attitude = rospy.ServiceProxy('set_attitude', srv.SetAttitude)
+set_rates = rospy.ServiceProxy('set_rates', srv.SetRates)
+land = rospy.ServiceProxy('land', Trigger)
+
+
+# Взлет на высоту 1 метр и переключение на режим аруко
+print("Взлет на высоту 1 метр и переключение на режим аруко")
+navigate(x=0, y=0, z=1, frame_id='body', auto_arm=True)
+rospy.sleep(3)
+navigate(x=0, y=0, z=1, frame_id='aruco_map', auto_arm=False)
+
+rospy.sleep(3)
+
+#Полет по синим стрелочкам(без препядствий)
+#1
+#полет в левый нижний угол(x=-5y=-4)
+print("полет в левый нижний угол(x=-5y=-4)")
+navigate(x=-5, y=-4, z=1,speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#2
+
+print("полет вверх (x=-5y=5)")
+navigate(x=-5, y=5, z=1,speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#3
+
+print("полет вправо (x=-3y=5)")
+navigate(x=-3, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#4
+
+print("полет вниз (x=-3y=-2)")
+navigate(x=-3, y=-2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#5
+
+print("полет вправо (x=-1y=-2)")
+navigate(x=-1, y=-2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#6
+
+print("полет вверх (x=-1y=3)")
+navigate(x=-1, y=3, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#7
+
+print("полет вправо (x=1y=3)")
+navigate(x=1, y=3, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#8
+
+print("полет вниз (x=1y=-2)")
+navigate(x=1, y=-2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#9
+
+print("полет вправо (x=3y=-2)")
+navigate(x=3, y=-2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#10
+
+print("полет вверх (x=3y=5)")
+navigate(x=3, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#11
+
+print("полет вправо (x=5y=5)")
+navigate(x=5, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#12
+
+print("полет вниз (x=5y=-4)")
+navigate(x=5, y=-4, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#13
+
+print("полет влево(в 1 точку) (x=-5y=-4)")
+navigate(x=-5, y=-4, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+#14 Возврат и посадка
+
+print("полет в старт(x=0y=0)")
+navigate(x=0, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(8)
+
+land()
+

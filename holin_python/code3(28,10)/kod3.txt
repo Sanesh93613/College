@@ -1,0 +1,67 @@
+import rospy
+from clover import srv
+from std_srvs.srv import Trigger
+from clover.srv import SetLEDEffect
+rospy.init_node('flight')
+set_effect = rospy.ServiceProxy('led/set_effect', SetLEDEffect)
+
+get_telemetry = rospy.ServiceProxy('get_telemetry', srv.GetTelemetry)
+navigate = rospy.ServiceProxy('navigate', srv.Navigate)
+navigate_global = rospy.ServiceProxy('navigate_global', srv.NavigateGlobal)
+set_position = rospy.ServiceProxy('set_position', srv.SetPosition)
+set_velocity = rospy.ServiceProxy('set_velocity', srv.SetVelocity)
+set_attitude = rospy.ServiceProxy('set_attitude', srv.SetAttitude)
+set_rates = rospy.ServiceProxy('set_rates', srv.SetRates)
+land = rospy.ServiceProxy('land', Trigger)
+
+# Взлет на высоту 1 метр
+navigate(x=0, y=0, z=1, frame_id='body', auto_arm=True)
+rospy.sleep(3)
+navigate(x=0, y=0, z=1, frame_id='aruco_map', auto_arm=False)
+
+rospy.sleep(3)
+#1
+navigate(x=0.5, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#2
+navigate(x=1.5, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#3
+navigate(x=1.5, y=4, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#4
+navigate(x=0.5, y=6, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#5
+navigate(x=1.5, y=6, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#6
+navigate(x=4.5, y=7.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#7
+navigate(x=4.5, y=7.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#8
+navigate(x=3.5, y=5.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#9
+navigate(x=4.5, y=3.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#10
+navigate(x=4.5, y=3.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#11
+navigate(x=4.5, y=1.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#12
+navigate(x=3.5, y=1.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#13
+navigate(x=3.5, y=0.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#14
+navigate(x=0.5, y=0.5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+rospy.sleep(6)
+#посадка
+land()
+rospy.sleep(6)

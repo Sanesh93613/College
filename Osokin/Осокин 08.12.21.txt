@@ -1,0 +1,29 @@
+#Задание B
+
+A = (15, 17, 21)
+M = 185
+
+cnt = 0
+for i in range(185//15):
+    for j in range(185//17):
+        for k in range(185//21):
+            m = i*15 + j*17 + k*21
+            if m > 185:
+                break
+            if m ==185:
+                cnt += 1
+                print(i,j,k)
+print(cnt)
+
+#Задание C
+
+for i in range(N+1):
+     value = i
+     condition = True
+     while value > 0:
+        currentNumber = value % 10
+        if i % currentNumber != 0:
+            condition = False
+        value = value / 10
+     if  condition is True:
+           print(f"{i} ")

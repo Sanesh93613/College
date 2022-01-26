@@ -1,0 +1,139 @@
+import rospy
+from clover import srv
+from std_srvs.srv import Trigger
+from clover.srv import SetLEDEffect
+rospy.init_node('flight')
+set_effect = rospy.ServiceProxy('led/set_effect', SetLEDEffect)
+
+get_telemetry = rospy.ServiceProxy('get_telemetry', srv.GetTelemetry)
+navigate = rospy.ServiceProxy('navigate', srv.Navigate)
+navigate_global = rospy.ServiceProxy('navigate_global', srv.NavigateGlobal)
+set_position = rospy.ServiceProxy('set_position', srv.SetPosition)
+set_velocity = rospy.ServiceProxy('set_velocity', srv.SetVelocity)
+set_attitude = rospy.ServiceProxy('set_attitude', srv.SetAttitude)
+set_rates = rospy.ServiceProxy('set_rates', srv.SetRates)
+land = rospy.ServiceProxy('land', Trigger)
+
+# Взлет на высоту 1 метр
+navigate(x=0, y=0, z=1, frame_id='body', auto_arm=True)
+rospy.sleep(3)
+navigate(x=0, y=0, z=1, frame_id='aruco_map', auto_arm=False)
+
+rospy.sleep(3)
+
+# choose color r or g
+first_point = input("Выберите цвет в 1 точке: 1 - красный цвет,2 - зеленый: ")
+#1
+# flight to the first point
+if first_point==1:
+	#red
+	navigate(x=0, y=9, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=255, g=0, b=0)
+	rospy.sleep(6)
+else:
+	#green
+	navigate(x=0, y=9, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=0, g=255, b=0)
+	rospy.sleep(6)
+
+# choose color rainbow or white
+second_point = input("Выберите цвет в 2 точке: 1 - радужный цвет,2 - белый: ")
+#2
+# flight to the second point
+if second_point == 1:
+	#rainbow
+	navigate(x=2, y=9, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(effect='rainbow')
+	rospy.sleep(6)
+else:
+	#white
+	navigate(x=2, y=9, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=255, g=255, b=255)
+	rospy.sleep(6)
+
+# choose color red or blue
+third_point = input("Выберите цвет в 3 точке: 1 - красный цвет,2 - синий: ")
+#3
+# flight to the third point
+if third_point == 1:
+	#red
+	navigate(x=2, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=255,g=0,b=0)
+	rospy.sleep(6)
+else:
+	#blue
+	navigate(x=2, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=0, g=0, b=255)
+	rospy.sleep(6)
+
+# flight to the fourth point
+#4
+#purple
+navigate(x=4, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(r=128,g=0,b=128)
+rospy.sleep(6)
+
+# flight to the fшаер point
+#5
+#pink
+navigate(x=4, y=6, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(r=255,g=0,b=255)
+rospy.sleep(6)
+
+# choose color flash white or flash yellow
+sixth_point = input("Выберите цвет в 6 точке: 1 - вспышка бел,2 - вспышка жел: ")
+#6
+# flight to the third point
+if sixth_point == 1:
+	#white
+	navigate(x=6, y=6, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(effect='flash',r=255,g=255,b=255)
+	rospy.sleep(6)
+else:
+	#yellow
+	navigate(x=6, y=6, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(effect='flash',r=255, g=255, b=255)
+	rospy.sleep(6)
+
+#7
+#red
+navigate(x=6, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(r=255,g=0,b=0)
+rospy.sleep(6)
+#8
+#green
+navigate(x=8, y=2, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(r=0,g=255,b=0)
+rospy.sleep(6)
+#9
+#blue
+navigate(x=8, y=9, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(r=0,g=0,b=255)
+rospy.sleep(6)
+#10
+#rainbow
+navigate(x=9, y=9, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(effect="rainbow")
+rospy.sleep(6)
+#11
+# choose color purple or blue
+eleventh_point = input("Выберите цвет в 11 точке: 1 - фиолетовый,2 - синий: ")
+if eleventh_point == 1:
+	#purple
+	navigate(x=9, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=128,g=0,b=128)
+	rospy.sleep(6)
+else:
+	#blue
+	navigate(x=9, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	set_effect(r=0, g=0, b=255)
+	rospy.sleep(6)
+
+#12
+#rainbow_fill
+navigate(x=0, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+set_effect(effect="rainbow_fill")
+rospy.sleep(6)
+
+#land
+land()

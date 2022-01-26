@@ -1,0 +1,58 @@
+import rospy
+from clover import srv
+from std_srvs.srv import Trigger
+from clover.srv import SetLEDEffect
+rospy.init_node('flight')
+set_effect = rospy.ServiceProxy('led/set_effect', SetLEDEffect)
+
+get_telemetry = rospy.ServiceProxy('get_telemetry', srv.GetTelemetry)
+navigate = rospy.ServiceProxy('navigate', srv.Navigate)
+navigate_global = rospy.ServiceProxy('navigate_global', srv.NavigateGlobal)
+set_position = rospy.ServiceProxy('set_position', srv.SetPosition)
+set_velocity = rospy.ServiceProxy('set_velocity', srv.SetVelocity)
+set_attitude = rospy.ServiceProxy('set_attitude', srv.SetAttitude)
+set_rates = rospy.ServiceProxy('set_rates', srv.SetRates)
+land = rospy.ServiceProxy('land', Trigger)
+
+# Взлет на высоту 1 метр
+navigate(x=0, y=0, z=1, frame_id='body', auto_arm=True)
+rospy.sleep(3)
+navigate(x=0, y=0, z=1, frame_id='aruco_map', auto_arm=False)
+set_effect(r=0, g=0, b=0)
+rospy.sleep(3)
+
+#choose way
+way = int(input("Выберите путь 1 - квадрат(красный),2 - песочные часы(синий): "))
+if way==1:
+	#Включение красной подсветки
+	set_effect(r=255, g=0, b=0)
+	#Полет вверх
+	navigate(x=0, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+	#Полет вправо
+	navigate(x=5, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+	#Полет вниз
+	navigate(x=5, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+	#Полет на точку старта 
+	navigate(x=0, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+else:
+	#Включение красной подсветки
+	set_effect(r=0, g=0, b=255)
+	#Полет вверх
+	navigate(x=5, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+	#Полет вправо
+	navigate(x=0, y=5, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+	#Полет вниз
+	navigate(x=5, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+	#Полет на точку старта 
+	navigate(x=0, y=0, z=1, speed=1, frame_id='aruco_map', auto_arm=False)
+	rospy.sleep(8)
+#посадка
+land()
+
